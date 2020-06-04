@@ -20,6 +20,12 @@ namespace NB.Core.Model
         public EventLog() { }
         public EventLog(Session session) : base(session) { }
 
+        [DisplayName("Наименование задачи")]
+        public string Name => Task?.Name;
+
+        [DisplayName("IP")]
+        public string TaskIPAddress => Task?.IPAddress;
+
         /// <summary>
         /// Дата события.
         /// </summary>
@@ -31,6 +37,12 @@ namespace NB.Core.Model
         /// </summary>
         [DisplayName("Тип события")]
         public Event? Event { get; set; }
+
+        [DisplayName("Каталог сохранения")]
+        public string TaskSaveDirectory => Task?.SaveDirectory;
+
+        [DisplayName("Каталог копирования")]
+        public string TaskCopyDirectory => Task?.CopyDirectory;
 
         /// <summary>
         /// Задача.

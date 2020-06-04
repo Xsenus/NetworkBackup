@@ -49,7 +49,8 @@ namespace NB.ServerConsole
 
                 foreach (var task in tasks)
                 {
-                    TaskScheduler.Start(task);
+                    ZipArchiveController.AddZipArchive(task.CopyDirectory, task.SaveDirectory);
+                    //TaskScheduler.Start(task);
                 }
 
                 var ip = GetLocalIPAddress();
@@ -57,7 +58,7 @@ namespace NB.ServerConsole
                 //listener = new TcpListener(IPAddress.Parse("127.0.0.1"), port);
                 listener = new TcpListener(IPAddress.Parse(ip), port);
                 listener.Start();
-                Console.WriteLine($"Сервер запущен на {ip}");
+                Console.WriteLine($"Сервер запущен на {ip}:{port}");
                 Console.WriteLine("Ожидание подключений...");
 
                 while (true)

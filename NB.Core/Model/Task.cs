@@ -92,6 +92,9 @@ namespace NB.Core.Model
         [MemberDesignTimeVisibility(false)]
         public bool IsSunday { get; set; }
 
+        [MemberDesignTimeVisibility(false)]
+        public bool IsThisPC { get; set; }
+
         public override string ToString()
         {
             return Name;

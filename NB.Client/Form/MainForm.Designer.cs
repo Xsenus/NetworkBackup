@@ -43,6 +43,8 @@
             this.ribbonStatusBar1 = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.gridControlTasks = new DevExpress.XtraGrid.GridControl();
             this.gridViewTasks = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.ribbonPageGroup4 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.btnOpenCopyDirectory = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlTasks)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewTasks)).BeginInit();
@@ -60,9 +62,10 @@
             this.btnTaskRemove,
             this.btnTaskStart,
             this.btnTaskStop,
-            this.btnTaskReport});
+            this.btnTaskReport,
+            this.btnOpenCopyDirectory});
             this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
-            this.ribbonControl1.MaxItemId = 15;
+            this.ribbonControl1.MaxItemId = 16;
             this.ribbonControl1.Name = "ribbonControl1";
             this.ribbonControl1.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPage1});
@@ -135,7 +138,8 @@
             this.ribbonPage1.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
             this.ribbonPageGroup1,
             this.ribbonPageGroup2,
-            this.ribbonPageGroup3});
+            this.ribbonPageGroup3,
+            this.ribbonPageGroup4});
             this.ribbonPage1.Name = "ribbonPage1";
             this.ribbonPage1.Text = "Основное меню";
             // 
@@ -191,6 +195,20 @@
             this.gridViewTasks.OptionsView.ShowGroupPanel = false;
             this.gridViewTasks.DoubleClick += new System.EventHandler(this.gridViewTasks_DoubleClick);
             // 
+            // ribbonPageGroup4
+            // 
+            this.ribbonPageGroup4.ItemLinks.Add(this.btnOpenCopyDirectory);
+            this.ribbonPageGroup4.Name = "ribbonPageGroup4";
+            // 
+            // btnOpenCopyDirectory
+            // 
+            this.btnOpenCopyDirectory.Caption = "Открыть каталог сохранения";
+            this.btnOpenCopyDirectory.Id = 15;
+            this.btnOpenCopyDirectory.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenCopyDirectory.ImageOptions.Image")));
+            this.btnOpenCopyDirectory.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnOpenCopyDirectory.ImageOptions.LargeImage")));
+            this.btnOpenCopyDirectory.Name = "btnOpenCopyDirectory";
+            this.btnOpenCopyDirectory.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnOpenCopyDirectory_ItemClick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -225,5 +243,7 @@
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup3;
         private DevExpress.XtraGrid.GridControl gridControlTasks;
         private DevExpress.XtraGrid.Views.Grid.GridView gridViewTasks;
+        private DevExpress.XtraBars.BarButtonItem btnOpenCopyDirectory;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup4;
     }
 }

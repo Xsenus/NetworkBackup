@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net.Sockets;
 using System.Text;
@@ -16,6 +17,7 @@ using NB.Core.Controller.DxSampleModelCode;
 using NB.Core.Enumerator;
 using NB.Core.Model;
 using Newtonsoft.Json;
+using EventLog = NB.Core.Model.EventLog;
 
 namespace NB.Client.Form
 {
@@ -263,6 +265,24 @@ namespace NB.Client.Form
             {
                 var form = new ReportForm(task);
                 form.ShowDialog();
+            }
+        }
+
+        private void btnOpenCopyDirectory_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            if (gridViewTasks.IsEmpty)
+            {
+                return;
+            }
+
+            var task = gridViewTasks.GetRow(gridViewTasks.FocusedRowHandle) as Task;
+
+            if (task != null)
+            {
+                if (!string.IsNullOrWhiteSpace(task.SaveDirectory))
+                {
+                    Process.Start(task.SaveDirectory);
+                }
             }
         }
     }

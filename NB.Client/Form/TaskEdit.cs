@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Net.Sockets;
 using System.Text;
+using System.Windows.Forms;
+using DevExpress.Utils.CommonDialogs;
 using DevExpress.Xpo;
 using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
-using NB.Core.Controller;
 using NB.Core.Controller.DxSampleModelCode;
 using NB.Core.Enumerator;
 using NB.Core.Model;
@@ -35,6 +36,31 @@ namespace NB.Client.Form
             Session = task.Session;
         }
 
+        private NetworkStream GetNetworkStream(string ipAddress, int port)
+        {
+            try
+            {
+                var client = new TcpClient(txtIPAddress.Text, 15000);
+                NetworkStream networkStream = client.GetStream();
+                return networkStream;
+            }
+            catch (SocketException socketException)
+            {
+                XtraMessageBox.Show(socketException.ToString(), "Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+            catch (ArgumentOutOfRangeException argumentOutOfRangeException)
+            {
+                XtraMessageBox.Show(argumentOutOfRangeException.ToString(), "Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+            catch (Exception exception)
+            {
+                XtraMessageBox.Show(exception.ToString(), "Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
+
         private void TaskEdit_Load(object sender, EventArgs e)
         {
             txtName.Text = Task.Name;
@@ -50,9 +76,11 @@ namespace NB.Client.Form
             checkIsFriday.Checked = Task.IsFriday;
             checkIsSaturday.Checked = Task.IsSaturday;
             checkIsSunday.Checked = Task.IsSunday;
+
+            checkIsThisPC.Checked = Task.IsThisPC;
         }
 
-        private void btnSaveDirectory_ButtonPressed(object sender, ButtonPressedEventArgs e)
+        private void btnCopyDirectory_ButtonPressed(object sender, ButtonPressedEventArgs e)
         {
             var buttonEdit = sender as ButtonEdit;
 
@@ -68,8 +96,12 @@ namespace NB.Client.Form
             }
             else
             {
-                var client = new TcpClient(txtIPAddress.Text, 15000);
-                NetworkStream networkStream = client.GetStream();
+                var networkStream = GetNetworkStream(txtIPAddress.Text, 15000);
+
+                if (networkStream is null)
+                {
+                    return;
+                }
 
                 var form = new MyExplorerForm(networkStream);
                 form.ShowDialog();
@@ -78,7 +110,54 @@ namespace NB.Client.Form
                 {
                     buttonEdit.EditValue = form.Path;
                 }
-            }            
+            }
+        }
+
+        private void btnSaveDirectory_ButtonPressed(object sender, ButtonPressedEventArgs e)
+        {
+            var buttonEdit = sender as ButtonEdit;
+
+            if (e.Button.Kind == ButtonPredefines.Delete)
+            {
+                buttonEdit.EditValue = null;
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtIPAddress.Text) && !checkIsThisPC.Checked)
+            {
+                txtIPAddress.Focus();
+            }
+            else
+            {
+                if (checkIsThisPC.Checked)
+                {
+                    using (var xtraFolderBrowserDialog = new XtraFolderBrowserDialog())
+                    {
+                        xtraFolderBrowserDialog.DialogStyle = FolderBrowserDialogStyle.Wide;
+                        if (xtraFolderBrowserDialog.ShowDialog() == DialogResult.OK)
+                        {
+                            buttonEdit.EditValue = xtraFolderBrowserDialog.SelectedPath;
+                        }
+                    }
+                }
+                else
+                {
+                    var networkStream = GetNetworkStream(txtIPAddress.Text, 15000);
+
+                    if (networkStream is null)
+                    {
+                        return;
+                    }
+
+                    var form = new MyExplorerForm(networkStream);
+                    form.ShowDialog();
+
+                    if (!string.IsNullOrWhiteSpace(form.Path))
+                    {
+                        buttonEdit.EditValue = form.Path;
+                    }
+                }
+            }    
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -127,6 +206,8 @@ namespace NB.Client.Form
             Task.IsSaturday = checkIsSaturday.Checked;
             Task.IsSunday = checkIsSunday.Checked;
 
+            Task.IsThisPC = checkIsThisPC.Checked;
+
             var eventLog = new EventLog(Session) 
             { 
                 Date = DateTime.Now
@@ -157,8 +238,12 @@ namespace NB.Client.Form
         {
             try
             {
-                var client = new TcpClient(txtIPAddress.Text, 15000);
-                NetworkStream networkStream = client.GetStream();
+                var networkStream = GetNetworkStream(txtIPAddress.Text, 15000);
+
+                if (networkStream is null)
+                {
+                    return;
+                }
 
                 while (true)
                 {

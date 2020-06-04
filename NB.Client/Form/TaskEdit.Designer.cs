@@ -49,6 +49,7 @@
             this.btnSaveDirectory = new DevExpress.XtraEditors.ButtonEdit();
             this.btnCancel = new DevExpress.XtraEditors.SimpleButton();
             this.btnSave = new DevExpress.XtraEditors.SimpleButton();
+            this.checkIsThisPC = new DevExpress.XtraEditors.CheckEdit();
             ((System.ComponentModel.ISupportInitialize)(this.txtName.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gpSettings)).BeginInit();
             this.gpSettings.SuspendLayout();
@@ -66,6 +67,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.date.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCopyDirectory.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnSaveDirectory.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkIsThisPC.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // lblName
@@ -85,6 +87,7 @@
             // 
             // gpSettings
             // 
+            this.gpSettings.Controls.Add(this.checkIsThisPC);
             this.gpSettings.Controls.Add(this.lblSaveDirectory);
             this.gpSettings.Controls.Add(this.lblCopyDirectory);
             this.gpSettings.Controls.Add(this.gpRepeat);
@@ -96,13 +99,13 @@
             this.gpSettings.Controls.Add(this.btnSaveDirectory);
             this.gpSettings.Location = new System.Drawing.Point(12, 38);
             this.gpSettings.Name = "gpSettings";
-            this.gpSettings.Size = new System.Drawing.Size(450, 231);
+            this.gpSettings.Size = new System.Drawing.Size(450, 253);
             this.gpSettings.TabIndex = 3;
             this.gpSettings.Text = "Параметры";
             // 
             // lblSaveDirectory
             // 
-            this.lblSaveDirectory.Location = new System.Drawing.Point(28, 201);
+            this.lblSaveDirectory.Location = new System.Drawing.Point(28, 226);
             this.lblSaveDirectory.Name = "lblSaveDirectory";
             this.lblSaveDirectory.Size = new System.Drawing.Size(97, 13);
             this.lblSaveDirectory.TabIndex = 17;
@@ -237,11 +240,11 @@
             new DevExpress.XtraEditors.Controls.EditorButton()});
             this.btnCopyDirectory.Size = new System.Drawing.Size(309, 20);
             this.btnCopyDirectory.TabIndex = 16;
-            this.btnCopyDirectory.ButtonPressed += new DevExpress.XtraEditors.Controls.ButtonPressedEventHandler(this.btnSaveDirectory_ButtonPressed);
+            this.btnCopyDirectory.ButtonPressed += new DevExpress.XtraEditors.Controls.ButtonPressedEventHandler(this.btnCopyDirectory_ButtonPressed);
             // 
             // btnSaveDirectory
             // 
-            this.btnSaveDirectory.Location = new System.Drawing.Point(131, 198);
+            this.btnSaveDirectory.Location = new System.Drawing.Point(131, 223);
             this.btnSaveDirectory.Name = "btnSaveDirectory";
             this.btnSaveDirectory.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton()});
@@ -251,7 +254,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(387, 275);
+            this.btnCancel.Location = new System.Drawing.Point(387, 297);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 3;
@@ -260,18 +263,26 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(306, 275);
+            this.btnSave.Location = new System.Drawing.Point(306, 297);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 4;
             this.btnSave.Text = "Ок";
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
+            // checkIsThisPC
+            // 
+            this.checkIsThisPC.Location = new System.Drawing.Point(197, 198);
+            this.checkIsThisPC.Name = "checkIsThisPC";
+            this.checkIsThisPC.Properties.Caption = "Указать место сохранения с текущего ПК";
+            this.checkIsThisPC.Size = new System.Drawing.Size(243, 19);
+            this.checkIsThisPC.TabIndex = 16;
+            // 
             // TaskEdit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(475, 307);
+            this.ClientSize = new System.Drawing.Size(475, 329);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.gpSettings);
@@ -298,6 +309,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.date.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCopyDirectory.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnSaveDirectory.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkIsThisPC.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -326,5 +338,6 @@
         private DevExpress.XtraEditors.SimpleButton btnSave;
         private DevExpress.XtraEditors.ButtonEdit btnCopyDirectory;
         private DevExpress.XtraEditors.ButtonEdit btnSaveDirectory;
+        private DevExpress.XtraEditors.CheckEdit checkIsThisPC;
     }
 }

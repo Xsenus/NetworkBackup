@@ -1,6 +1,7 @@
 ﻿using DevExpress.ExpressApp.Xpo;
 using DevExpress.Xpo;
 using DevExpress.Xpo.DB;
+using System.IO;
 
 namespace NB.Core.Controller
 {
@@ -12,7 +13,8 @@ namespace NB.Core.Controller
         {
             if (string.IsNullOrWhiteSpace(connectionString))
             {
-                connectionString = SQLiteConnectionProvider.GetConnectionString(StringSQLiteConnection);
+                var fullPathDataBase = Path.GetFullPath(StringSQLiteConnection);
+                connectionString = SQLiteConnectionProvider.GetConnectionString(fullPathDataBase);
             }
 
             var xpoTypeInfoSource = XpoTypesInfoHelper.GetXpoTypeInfoSource().XPDictionary;
@@ -32,7 +34,8 @@ namespace NB.Core.Controller
         {
             if (string.IsNullOrWhiteSpace(connectionString))
             {
-                connectionString = SQLiteConnectionProvider.GetConnectionString(StringSQLiteConnection);
+                var fullPathDataBase = Path.GetFullPath(StringSQLiteConnection);
+                connectionString = SQLiteConnectionProvider.GetConnectionString(fullPathDataBase);
             }
 
             var xpoTypeInfoSource = XpoTypesInfoHelper.GetXpoTypeInfoSource().XPDictionary;
