@@ -47,6 +47,18 @@ namespace NB.Core.Enumerator
         /// Изменение.
         /// </summary>
         [Description("Изменение")]
-        Edit = 7
+        Edit = 7,
+
+        /// <summary>
+        /// Изменение.
+        /// </summary>
+        [Description("Запрос отчета с сервера")]
+        ReportRequest = 8,
+
+        /// <summary>
+        /// Ошибка.
+        /// </summary>
+        [Description("Ошибка соединения")]
+        SocketException = 9,
     }
 }

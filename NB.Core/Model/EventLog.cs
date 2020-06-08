@@ -38,6 +38,12 @@ namespace NB.Core.Model
         [DisplayName("Тип события")]
         public Event? Event { get; set; }
 
+        /// <summary>
+        /// Описание события.
+        /// </summary>
+        [DisplayName("Описание события")]
+        public string Description { get; set; }
+
         [DisplayName("Каталог сохранения")]
         public string TaskSaveDirectory => Task?.SaveDirectory;
 

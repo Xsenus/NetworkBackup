@@ -58,6 +58,7 @@
     <Compile Include="Enumerator\Event.cs" />
     <Compile Include="Enumerator\TaskStatus.cs" />
     <Compile Include="Model\EventLog.cs" />
+    <Compile Include="Model\EventLogList.cs" />
     <Compile Include="Model\MyExplorer.cs" />
     <Compile Include="Model\Task.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -56,6 +56,7 @@
             this.gridViewEvent.OptionsSelection.MultiSelect = true;
             this.gridViewEvent.OptionsView.ColumnHeaderAutoHeight = DevExpress.Utils.DefaultBoolean.True;
             this.gridViewEvent.OptionsView.ShowGroupPanel = false;
+            this.gridViewEvent.Click += new System.EventHandler(this.gridViewEvent_Click);
             // 
             // ReportForm
             // 

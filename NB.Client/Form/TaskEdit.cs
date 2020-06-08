@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using DevExpress.Utils.CommonDialogs;
 using DevExpress.Xpo;
 using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
+using DevExpress.XtraEditors.Design;
+using NB.Core.Controller;
 using NB.Core.Controller.DxSampleModelCode;
 using NB.Core.Enumerator;
 using NB.Core.Model;
@@ -216,10 +219,12 @@ namespace NB.Client.Form
             if (Task.Oid <= 0)
             {
                 eventLog.Event = Event.Creature;
+                eventLog.Description = "Создание задачи в клиенте управления";
             }
             else
             {
                 eventLog.Event = Event.Edit;
+                eventLog.Description = "Изменение задачи в клиенте управления";
             }
             Task.EventLogs.Add(eventLog);
             Task.Save();
@@ -227,8 +232,11 @@ namespace NB.Client.Form
             isSave = true;
 
             if (isSave == true)
-            {                
-                SendTask();
+            {
+                System.Threading.Tasks.Task.Run(() =>
+                {
+                    SendTask();
+                }).ConfigureAwait(false);
             }
 
             Close();
@@ -276,18 +284,26 @@ namespace NB.Client.Form
                         message = message.Remove(0, 1);
                         if (JsonConvert.DeserializeObject<Task>(message) is Task task)
                         {
-                            Task.ServerOid = task.Oid;
-                            Task.TaskStatus = task.TaskStatus;                            
-
-                            var eventLog = new EventLog(Session)
+                            using (var sess = SessionController.GetSessionSimpleDataLayer())
                             {
-                                Date = DateTime.Now,
-                                Event = Event.Start,
-                            };
+                                var taskEx = sess.GetObjectByKey<Task>(Task.Oid);
 
-                            Task.EventLogs.Add(eventLog);
-                            Task.Save();
+                                if (taskEx != null)
+                                {
+                                    taskEx.ServerOid = task.Oid;
+                                    taskEx.TaskStatus = task.TaskStatus;
 
+                                    var eventLog = new EventLog(sess)
+                                    {
+                                        Date = DateTime.Now,
+                                        Event = Event.Start,
+                                        Description = "Успешное добавление и старт задачи на сервере"
+                                    };
+
+                                    taskEx.EventLogs.Add(eventLog);
+                                    taskEx.Save();
+                                }
+                            }
                             return;
                         }                            
                     }

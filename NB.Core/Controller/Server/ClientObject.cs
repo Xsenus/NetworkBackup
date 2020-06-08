@@ -221,6 +221,34 @@ namespace NB.Core.Controller.Server
                                 continue;
                             }
                         }
+                        else if (message.Substring(0, 1).Equals($"{(int)TaskServerStatus.SendTaskEventLog}"))
+                        {
+                            message = message.Remove(0, 1);
+                            if (JsonConvert.DeserializeObject<Task>(message) is Task task)
+                            {
+                                Console.WriteLine($"Получена задача {task.Name} для {task.IPAddress} на отправку отчета.");
+
+                                var taskServer = Session.GetObjectByKey<Task>(task.ServerOid);
+
+                                if (taskServer != null)
+                                {
+                                    taskServer.Reload();
+                                    var eventLogList = new EventLogList(taskServer);
+
+                                    var resolver = new DxSampleModelJsonSerializationContractResolver();
+                                    message = $"{(int)TaskServerStatus.SendTaskEventLog}" + JsonConvert.SerializeObject(eventLogList,
+                                        new JsonSerializerSettings()
+                                        {
+                                            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                                            ContractResolver = resolver
+                                        });
+
+                                    data = Encoding.Unicode.GetBytes(message);
+                                    stream.Write(data, 0, data.Length);
+                                    continue;
+                                }
+                            }
+                        }
                     }
                 }
             }

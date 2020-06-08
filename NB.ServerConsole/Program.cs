@@ -49,8 +49,8 @@ namespace NB.ServerConsole
 
                 foreach (var task in tasks)
                 {
-                    ZipArchiveController.AddZipArchive(task.CopyDirectory, task.SaveDirectory);
-                    //TaskScheduler.Start(task);
+                    //ZipArchiveController.AddZipArchive(task.CopyDirectory, task.SaveDirectory, task.Oid);
+                    TaskScheduler.Start(task);
                 }
 
                 var ip = GetLocalIPAddress();

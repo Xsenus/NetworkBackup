@@ -12,5 +12,6 @@ namespace NB.Core.Enumerator
         GetTask = 2,
         StartTask = 3,
         StopTask = 4,
+        SendTaskEventLog = 5
     }
 }

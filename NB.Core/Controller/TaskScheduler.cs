@@ -13,10 +13,13 @@ namespace NB.Core.Controller
             IScheduler scheduler = await StdSchedulerFactory.GetDefaultScheduler();
             await scheduler.Start();
 
+            var nameJob = $"{task.Name}-{task.Oid}-{Guid.NewGuid()}";
+
             IJobDetail job = JobBuilder.Create<ZipArchiveController>()
-                .WithIdentity(task.Name, "CreateZip")   
+                .WithIdentity(nameJob, "CreateZip")   
                 .UsingJobData("pathIn", task.CopyDirectory)
                 .UsingJobData("pathOut", task.SaveDirectory)
+                .UsingJobData("taskOid", task.Oid)
                 .Build();
 
             var daysOfWeek = new List<DayOfWeek>();
@@ -63,7 +66,7 @@ namespace NB.Core.Controller
             if (daysOfWeek.Count == 0)
             {
                 trigger = TriggerBuilder.Create()
-                    .WithIdentity(task.Name, "CreateZip")
+                    .WithIdentity(nameJob, "CreateZip")
                     .StartAt(DateBuilder.DateOf(date.Hour, date.Minute, date.Second, date.Day, date.Month, date.Year))
                     .Build();
             }
@@ -72,7 +75,7 @@ namespace NB.Core.Controller
                 var dailyTimeInterval = DailyTimeIntervalScheduleBuilder.Create().OnDaysOfTheWeek(daysOfWeek);
                 
                 trigger = TriggerBuilder.Create()
-                    .WithIdentity(task.Name, "CreateZip")
+                    .WithIdentity(nameJob, "CreateZip")
                     .StartAt(DateBuilder.DateOf(date.Hour, date.Minute, date.Second, date.Day, date.Month, date.Year))
                     .WithSchedule(dailyTimeInterval)
                     .WithCalendarIntervalSchedule(x => x
